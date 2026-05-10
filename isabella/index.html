@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Isabella</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/background.css">
+    <link rel="stylesheet" href="css/lockscreen.css">
+    <link rel="stylesheet" href="css/sections.css">
+    <link rel="stylesheet" href="css/audio.css">
+    <link rel="stylesheet" href="css/timeline.css">
+</head>
+
+<body>
+    <!-- Áudio de Fundo Global -->
+    <audio id="bg-music" src="assets/audio/Coisas De Quem Ama - Jorge & Mateus.mp3" preload="auto"></audio>
+
+    <!-- Áudio Auxiliar (Para os trechos do Spotify) -->
+    <audio id="card-music" src="" preload="auto"></audio>
+
+    <!-- Global Music Player -->
+    <div id="global-player" class="hidden">
+        <div class="player-info">
+            <div class="player-cover" id="cover-art"></div>
+            <div class="player-text">
+                <div class="player-title-wrap">
+                    <div class="player-title" id="track-title">Carregando...</div>
+                </div>
+                <div class="player-artist-wrap">
+                    <div class="player-artist" id="track-artist"></div>
+                </div>
+            </div>
+        </div>
+        <div class="player-controls">
+            <button id="btn-prev" class="player-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="19 20 9 12 19 4 19 20"></polygon>
+                    <line x1="5" y1="19" x2="5" y2="5"></line>
+                </svg>
+            </button>
+            <button id="btn-playpause" class="player-btn play-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+            </button>
+            <button id="btn-next" class="player-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                    <line x1="19" y1="5" x2="19" y2="19"></line>
+                </svg>
+            </button>
+            <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="1">
+        </div>
+    </div>
+
+    <!-- Background Imersivo -->
+    <div id="ambient-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="noise-overlay"></div>
+    </div>
+
+    <!-- Lockscreen -->
+    <div id="lockscreen" class="active">
+        <div class="lockscreen-content">
+            <p class="lock-hint">O dia em que minha vida mudou <span class="highlight-gold">para sempre...</span></p>
+            <div class="input-group">
+                <input type="text" id="password-input" placeholder="DD/MM/AAAA" maxlength="10" autocomplete="off">
+                <div class="error-msg" id="error-msg">Tente novamente, meu amor.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Experiência Principal -->
+    <main id="experience" class="hidden">
+
+        <!-- Seção 1: Typewriter / Hero -->
+        <section class="section-hero" id="section-hero">
+            <div class="hero-layout">
+                <!-- Lado esquerdo: texto digitado -->
+                <div class="hero-text-side">
+                    <div class="hero-typewriter">
+                        <h1 id="typewriter-text" class="hero-h1"></h1><span class="cursor">|</span>
+                    </div>
+                </div>
+                <!-- Lado direito: imagem conceitual solta -->
+                <div class="hero-image-side">
+                    <img src="assets/conceitual.png" alt="Nós dois" class="hero-conceitual">
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <span>Deslize suavemente</span>
+                <div class="mouse"></div>
+            </div>
+        </section>
+
+        <!-- Seção 2: O Encontro (Programador & Advogada) -->
+        <section class="section-block" id="section-meeting">
+            <!-- Imagem de fundo das profissões -->
+            <img src="assets/profissoes.png" alt="" class="meeting-bg-art" aria-hidden="true">
+            <div class="container">
+                <div class="reveal-up">
+                    <h2 class="serif-title">Mundos Diferentes</h2>
+                    <p>A gente vive em mundos bem diferentes: eu escrevendo códigos e você interpretando leis. Dois
+                        mundos que, na teoria, não tinham nada a ver, mas que na prática se encaixaram perfeitamente.
+                        Quem diria que um programador e uma advogada poderiam se conectar tanto? </p>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- Seção 3: Intro Timeline -->
+        <section class="section-timeline-intro" id="section-timeline-intro">
+            <div class="tl-intro-content reveal-up">
+                <p class="tl-label">nossa história</p>
+                <h2 class="tl-intro-title">Desde <span class="gold">10 de Abril</span></h2>
+                <p class="tl-intro-sub">O dia em que tudo mudou.<br>Cada memória aqui é um pedaço do que
+                    construímos juntos.</p>
+                <div class="tl-intro-line"></div>
+            </div>
+        </section>
+
+        <!-- Seção 4: Timeline de Memórias -->
+        <section class="section-timeline" id="section-timeline">
+            <!-- Linha CSS central — cresce via scaleY no scroll -->
+            <div class="tl-line-track">
+                <div id="tl-line-fill"></div>
+                <div id="tl-dot-css"></div>
+            </div>
+
+            <!-- Cards das memórias -->
+            <div class="tl-cards-track" id="tl-cards">
+
+                <!-- 0: 10 · Abril · 2025 [L] -->
+                <div class="tl-item tl-left tl-entry" data-index="0">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap">
+                        <div class="polaroid">
+                            <div class="polaroid-front">
+                                <img src="assets/timeline/10.04%20-%20Sexta%20-%20Porks.jpeg" alt="Porks, 10 de abril"
+                                    class="polaroid-img">
+                                <p class="polaroid-caption">Porks, 10 de abril</p>
+                            </div>
+                            <div class="polaroid-back">
+                                <p class="polaroid-back-text">Ainda bem que eu fui 💛</p>
+                            </div>
+                        </div>
+                        <div class="tl-text-block">
+                            <span class="tl-date">10 · Abril · 2025</span>
+                            <h3 class="tl-title">O Primeiro Sim</h3>
+                            <p class="tl-desc">A seu convite, nossa primeira saída fora do trabalho, logo em um bar de
+                                rock, o
+                                nosso primeiro beijo, e uma conversa na praça às 4 da manhã. Foi o dia em que tudo
+                                começou.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1: 11 · Abril · 2025 [R] -->
+                <div class="tl-item tl-right tl-entry" data-index="1">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap">
+                        <div class="tl-text-block">
+                            <span class="tl-date">11 · Abril · 2025</span>
+                            <h3 class="tl-title">Vôlei e Pastel</h3>
+                            <p class="tl-desc">No dia seguinte, fomos para o vôlei da firma. Depois do vôlei, um pastel
+                                e um açaí. Já estávamos combinando o
+                                próximo encontro antes de terminar esse.</p>
+                        </div>
+                        <div class="polaroid">
+                            <div class="polaroid-front">
+                                <img src="assets/timeline/11.04%20-%20S%C3%A1bado%20-%20Pastel.jpeg" alt="Pastel juntos"
+                                    class="polaroid-img">
+                                <p class="polaroid-caption">Comendo pastel juntos</p>
+                            </div>
+                            <div class="polaroid-back">
+                                <p class="polaroid-back-text">Esse networking rendeu 🏐</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2: 12 · Abril · 2025 [L] -->
+                <div class="tl-item tl-left tl-entry" data-index="2">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap">
+                        <div class="polaroid">
+                            <div class="polaroid-front">
+                                <img src="assets/timeline/12.04%20-%20Domingo%20-%20Cinema.jpeg" alt="Cinema"
+                                    class="polaroid-img">
+                                <p class="polaroid-caption">Cinema</p>
+                            </div>
+                            <div class="polaroid-back">
+                                <p class="polaroid-back-text">Nós estávamos bem nervosos</p>
+                            </div>
+                        </div>
+                        <div class="tl-text-block">
+                            <span class="tl-date">12 · Abril · 2025</span>
+                            <h3 class="tl-title">Devoradores de Estrela</h3>
+                            <p class="tl-desc">Nosso primeiro cinema juntos. Você estava linda como sempre.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3: 12 · Abril · 2025 [R] -->
+                <div class="tl-item tl-right tl-entry" data-index="3">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap">
+                        <div class="tl-text-block">
+                            <span class="tl-date">12 · Abril · 2025</span>
+                            <h3 class="tl-title">A Praça de Madrugada</h3>
+                            <p class="tl-desc">Saímos do cinema e nenhum dos dois quis ir embora. Acabamos em uma praça,
+                                conversando por horas, com trabalho no dia seguinte — e não nos importamos nem um pouco.
+                            </p>
+                        </div>
+                        <div class="polaroid">
+                            <div class="polaroid-front">
+                                <img src="assets/timeline/12.04%20-%20Domingo%20-%20Pra%C3%A7a.jpeg"
+                                    alt="Praça, depois do cinema" class="polaroid-img">
+                                <p class="polaroid-caption">Praça, depois do cinema</p>
+                            </div>
+                            <div class="polaroid-back">
+                                <p class="polaroid-back-text">Ainda lembro daquele milk-shake 🍦</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4: 15 · Abril · 2025 — sem foto -->
+                <div class="tl-item tl-left tl-entry" data-index="4">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap text-only-wrap">
+                        <div class="tl-text-card-inner">
+                            <span class="tl-date">15 · Abril · 2025</span>
+                            <p class="tl-text-card-quote">Não temos nenhuma foto desse dia — mas ele ficou pra sempre
+                                marcado em nossa memória. Depois da viagem para Goiânia, ficamos só ouvindo música,
+                                conversando,
+                                presentes... Foi um dia definitivo para a gente.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5: 18 · Abril · 2025 [R] -->
+                <div class="tl-item tl-right tl-entry" data-index="5">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap">
+                        <div class="tl-text-block">
+                            <span class="tl-date">18 · Abril · 2025</span>
+                            <h3 class="tl-title">O Pagode</h3>
+                            <p class="tl-desc">Você conhecia todas as músicas, todas as coreografias. Eu só conseguia
+                                olhar sem acreditar que essa pessoa existia.</p>
+                        </div>
+                        <div class="polaroid">
+                            <div class="polaroid-front">
+                                <img src="assets/timeline/18.04%20-%20S%C3%A1bado%20-%20Pagode.jpeg" alt="Pagode juntos"
+                                    class="polaroid-img">
+                                <p class="polaroid-caption">Pagode juntos</p>
+                            </div>
+                            <div class="polaroid-back">
+                                <p class="polaroid-back-text">Essa ainda foi pro CF...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6: 18 · Abril · 2025 [L] -->
+                <div class="tl-item tl-left tl-entry" data-index="6">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap">
+                        <div class="polaroid">
+                            <div class="polaroid-front">
+                                <img src="assets/timeline/18.04%20-%20S%C3%A1bado%20-%20Casa.jpeg" alt="Em casa"
+                                    class="polaroid-img">
+                                <p class="polaroid-caption">Em casa</p>
+                            </div>
+                            <div class="polaroid-back">
+                                <p class="polaroid-back-text">Minha foto favorita nossa. 📸</p>
+                            </div>
+                        </div>
+                        <div class="tl-text-block">
+                            <span class="tl-date">18 · Abril · 2025</span>
+                            <h3 class="tl-title">Em Casa</h3>
+                            <p class="tl-desc">Depois do pagode, fomos à sua casa. Conheci a Elisângela, sua mãe — e o
+                                Tobias, o cachorrinho da Eloísa.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7: 18 · Abril · 2025 [R] -->
+                <div class="tl-item tl-right tl-entry" data-index="7">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap">
+                        <div class="tl-text-block">
+                            <span class="tl-date">18 · Abril · 2025</span>
+                            <h3 class="tl-title">De Volta ao Porks</h3>
+                            <p class="tl-desc">Ao final de um dia que parecia valer por vários, voltamos ao Porks. Foi
+                                onde tiramos essa foto — uma das suas favoritas.</p>
+                        </div>
+                        <div class="polaroid">
+                            <div class="polaroid-front">
+                                <img src="assets/timeline/18.04%20-%20S%C3%A1bado%20-%20Porks.jpeg"
+                                    alt="De volta ao Porks" class="polaroid-img">
+                                <p class="polaroid-caption">De volta ao Porks</p>
+                            </div>
+                            <div class="polaroid-back">
+                                <p class="polaroid-back-text">Te ouvir cantar todas as músicas de rock logo depois do
+                                    pagode foi surreal. </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8: 19 · Abril · 2025 [L] -->
+                <div class="tl-item tl-left tl-entry" data-index="8">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap">
+                        <div class="polaroid">
+                            <div class="polaroid-front">
+                                <img src="assets/timeline/19.04%20-%20Domingo%20-%20Reconhecimento.jpeg"
+                                    alt="Domingo juntos" class="polaroid-img">
+                                <p class="polaroid-caption">Domingo juntos</p>
+                            </div>
+                            <div class="polaroid-back">
+                                <p class="polaroid-back-text">Viveria todos os dias assim, facilmente.</p>
+                            </div>
+                        </div>
+                        <div class="tl-text-block">
+                            <span class="tl-date">19 · Abril · 2025</span>
+                            <h3 class="tl-title">Domingo em Família</h3>
+                            <p class="tl-desc">Você me chamou para almoçar. Cozinhamos juntos e passamos o dia inteiro
+                                assistindo filmes e séries. Um domingo simples e absolutamente perfeito.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 9: 20 · Abril · 2025 [R] -->
+                <div class="tl-item tl-right tl-entry" data-index="9">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap">
+                        <div class="tl-text-block">
+                            <span class="tl-date">20 · Abril · 2025</span>
+                            <h3 class="tl-title">Casa Vêneto</h3>
+                            <p class="tl-desc">Um date romântico em um restaurante italiano. A comida, a luz, o ambiente
+                                — tudo estava perfeito. Especialmente a companhia.</p>
+                        </div>
+                        <div class="polaroid">
+                            <div class="polaroid-front">
+                                <img src="assets/timeline/20.04%20-%20Segunda%20-%20Macarr%C3%A3o.jpeg"
+                                    alt="Restaurante italiano" class="polaroid-img">
+                                <p class="polaroid-caption">Restaurante italiano</p>
+                            </div>
+                            <div class="polaroid-back">
+                                <p class="polaroid-back-text">🤌🤌🤌</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 10: 20 · Abril · 2025 [L] -->
+                <div class="tl-item tl-left tl-entry" data-index="10">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap">
+                        <div class="polaroid">
+                            <div class="polaroid-front">
+                                <img src="assets/timeline/20.04%20-%20Segunda%20-%20Carro.jpeg" alt="No carro"
+                                    class="polaroid-img">
+                                <p class="polaroid-caption">No carro</p>
+                            </div>
+                            <div class="polaroid-back">
+                                <p class="polaroid-back-text">Minha foto favorita sua 🤍</p>
+                            </div>
+                        </div>
+                        <div class="tl-text-block">
+                            <span class="tl-date">20 · Abril · 2025</span>
+                            <h3 class="tl-title">Sem Querer Ir Embora</h3>
+                            <p class="tl-desc">Saímos do restaurante e nenhum dos dois quis partir. Ficamos no carro,
+                                novamente com
+                                músicas e conversas... Nesse dia, eu eu tirei essa foto. É a minha favorita sua.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 11: 20 · Abril · 2025 [R] -->
+                <div class="tl-item tl-right tl-entry" data-index="11">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap">
+                        <div class="tl-text-block">
+                            <span class="tl-date">20 · Abril · 2025</span>
+                            <h3 class="tl-title">De Moto à Noite</h3>
+                            <p class="tl-desc">No mesmo dia, ainda nos recusando ir embora, demos uma volta de moto sem
+                                rumo
+                                pela noite.
+                                Acabamos visitando um de nossos sonhos juntos.</p>
+                        </div>
+                        <div class="polaroid">
+                            <div class="polaroid-front">
+                                <img src="assets/timeline/20.04%20-%20Segunda%20-%20Vista%20Bela.jpeg" alt="Vista bela"
+                                    class="polaroid-img">
+                                <p class="polaroid-caption">Vista bela</p>
+                            </div>
+                            <div class="polaroid-back">
+                                <p class="polaroid-back-text">Um dia moraremos por aqui</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 12: 20 · Abril · 2025 [L] -->
+                <div class="tl-item tl-left tl-entry" data-index="12">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap">
+                        <div class="polaroid">
+                            <div class="polaroid-front">
+                                <img src="assets/timeline/20.04%20-%20Segunda%20-%20Pa%C3%A7o.jpeg" alt="Nosso trabalho"
+                                    class="polaroid-img">
+                                <p class="polaroid-caption">Nosso trabalho</p>
+                            </div>
+                            <div class="polaroid-back">
+                                <p class="polaroid-back-text">Você ainda tá me devendo um passeio de moto, com você
+                                    dirigindo...</p>
+                            </div>
+                        </div>
+                        <div class="tl-text-block">
+                            <span class="tl-date">20 · Abril · 2025</span>
+                            <h3 class="tl-title">De Volta ao Início</h3>
+                            <p class="tl-desc">No mesmo passeio de moto, visitamos onde tudo começou: nosso trabalho.
+                                Onde nos olhamos pela primeira vez. Foi o dia em que tiramos essa foto icônica.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 13: 21 · Abril · 2025 [R] -->
+                <div class="tl-item tl-right tl-entry" data-index="13">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap">
+                        <div class="tl-text-block">
+                            <span class="tl-date">21 · Abril · 2025</span>
+                            <h3 class="tl-title">Rios de Sangue</h3>
+                            <p class="tl-desc">A intenção era assistir o filme, mas na prática, só atrapalhamos o outro
+                                casal da sessão, de tanto falar. Nesse
+                                dia, mais cedo, você me convidou para ir a Barreiras conhecer sua cidade e sua família,
+                                uma ideia ambiciosa.</p>
+                        </div>
+                        <div class="polaroid">
+                            <div class="polaroid-front">
+                                <img src="assets/timeline/21.04%20-%20Ter%C3%A7a%20-%20Rios%20de%20Sangue.jpeg"
+                                    alt="Cinema em casa" class="polaroid-img">
+                                <p class="polaroid-caption">Cinema em casa</p>
+                            </div>
+                            <div class="polaroid-back">
+                                <p class="polaroid-back-text">Filme nota zero, mas valeu a pena</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 14: 23 · Abril · 2025 [L] -->
+                <div class="tl-item tl-left tl-entry" data-index="14">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap">
+                        <div class="polaroid">
+                            <div class="polaroid-front">
+                                <img src="assets/timeline/23.04%20-%20Quinta%20-%20Liga%C3%A7%C3%A3o.jpeg"
+                                    alt="A ligação" class="polaroid-img">
+                                <p class="polaroid-caption">O desabafo da Larissa</p>
+                            </div>
+                            <div class="polaroid-back">
+                                <p class="polaroid-back-text">Todo mundo te ama. Com razão 🤍</p>
+                            </div>
+                        </div>
+                        <div class="tl-text-block">
+                            <span class="tl-date">23 · Abril · 2025</span>
+                            <h3 class="tl-title">Burger King</h3>
+                            <p class="tl-desc">Saímos para comer no BK e você ficou vários minutos ao telefone com a sua
+                                família e com a Larissa.
+                                Eu fiquei só ouvindo — e percebi o quão querida você é por todo mundo.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 15: 26 · Abril · 2025 — sem foto -->
+                <div class="tl-item tl-right tl-entry" data-index="15">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap text-only-wrap">
+                        <div class="tl-text-card-inner">
+                            <span class="tl-date">26 · Abril · 2025</span>
+                            <p class="tl-text-card-quote">Não tiramos fotos, mas nesse dia, você veio à minha casa pela
+                                primeira vez — e foi a primeira
+                                pessoa
+                                a entrar assim. Conheceu minha família. Todos te adoraram. Como não poderia ser
+                                diferente.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 16: 28 · Abril · 2025 [L] -->
+                <div class="tl-item tl-left tl-entry" data-index="16">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap">
+                        <div class="polaroid">
+                            <div class="polaroid-front">
+                                <img src="assets/timeline/28.04%20-%20Ter%C3%A7a%20-%20Preparativos%20Viagem.jpeg"
+                                    alt="Preparativos" class="polaroid-img">
+                                <p class="polaroid-caption">Preparativos</p>
+                            </div>
+                            <div class="polaroid-back">
+                                <p class="polaroid-back-text">Te ver feliz nesse dia foi muito contagiante</p>
+                            </div>
+                        </div>
+                        <div class="tl-text-block">
+                            <span class="tl-date">28 · Abril · 2025</span>
+                            <h3 class="tl-title">A Viagem Se Aproxima</h3>
+                            <p class="tl-desc">Fomos ao shopping fazer as compras para a viagem. Tirei essa foto
+                                enquanto te
+                                esperava provar os vestidos.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 17: 30 · Abril · 2025 [R] -->
+                <div class="tl-item tl-right tl-entry" data-index="17">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap">
+                        <div class="tl-text-block">
+                            <span class="tl-date">30 · Abril · 2025</span>
+                            <h3 class="tl-title">A Viagem</h3>
+                            <p class="tl-desc">Chegamos a Goiânia e passamos algumas horas no shopping esperando. Foi
+                                quando pegamos a Pantera Cor-de-Rosa, de primeira!!!</p>
+                        </div>
+                        <div class="polaroid">
+                            <div class="polaroid-front">
+                                <img src="assets/timeline/30.04%20-%20Quinta%20-%20Shopping%20GYN.jpeg"
+                                    alt="Shopping GYN" class="polaroid-img">
+                                <p class="polaroid-caption">Shopping GYN</p>
+                            </div>
+                            <div class="polaroid-back">
+                                <p class="polaroid-back-text">A sobrinha daquela senhora provavelmente continua sem um
+                                    ursinho até hoje</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 18: 30 · Abril · 2025 [L] -->
+                <div class="tl-item tl-left tl-entry" data-index="18">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap">
+                        <div class="polaroid">
+                            <div class="polaroid-front">
+                                <img src="assets/timeline/30.04%20-%20Quinta%20-%20Foto%20%C3%94nibus.jpeg"
+                                    alt="No ônibus" class="polaroid-img">
+                                <p class="polaroid-caption">No ônibus</p>
+                            </div>
+                            <div class="polaroid-back">
+                                <p class="polaroid-back-text">Só faltou não existir aquela divisória no meio dos
+                                    assentos</p>
+                            </div>
+                        </div>
+                        <div class="tl-text-block">
+                            <span class="tl-date">30 · Abril · 2025</span>
+                            <h3 class="tl-title">No Onibus</h3>
+                            <p class="tl-desc">Já no ônibus, a caminho de Barreiras Bahia. Essa foi nossa primeira foto
+                                postada
+                                publicamente — juntos e felizes, sem precisar esconder mais nada.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 19: 01 · Maio · 2025 [R] -->
+                <div class="tl-item tl-right tl-entry" data-index="19">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap">
+                        <div class="tl-text-block">
+                            <span class="tl-date">01 · Maio · 2025</span>
+                            <h3 class="tl-title">Chácara Neves</h3>
+                            <p class="tl-desc">Chegamos em Barreiras, e já fomos conhecer a famosa Chácara Neves.
+                                Conheci várias pessoas bem queridas da sua família.</p>
+                        </div>
+                        <div class="polaroid">
+                            <div class="polaroid-front">
+                                <img src="assets/timeline/01.05%20-%20Sexta%20-%20Ch%C3%A1cara.jpeg" alt="Chácara Neves"
+                                    class="polaroid-img">
+                                <p class="polaroid-caption">Chácara Neves</p>
+                            </div>
+                            <div class="polaroid-back">
+                                <p class="polaroid-back-text">Enfim, em Barreiras 🌿</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 20: 01 · Maio · 2025 [L] -->
+                <div class="tl-item tl-left tl-entry" data-index="20">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap">
+                        <div class="polaroid">
+                            <div class="polaroid-front">
+                                <img src="assets/timeline/01.05%20-%20Sexta%20-%20Rio%20Grande.jpeg" alt="Rio Grande"
+                                    class="polaroid-img">
+                                <p class="polaroid-caption">Rio Grande</p>
+                            </div>
+                            <div class="polaroid-back">
+                                <p class="polaroid-back-text">Agora também faz parte da minha história</p>
+                            </div>
+                        </div>
+                        <div class="tl-text-block">
+                            <span class="tl-date">01 · Maio · 2025</span>
+                            <h3 class="tl-title">Rio Grande</h3>
+                            <p class="tl-desc">Ainda na chácara, você me levou para tomar banho (rs) no Rio Grande. Foi
+                                incrível ver pessoalmente um lugar que eu ouvi tantas histórias.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 21: 01 · Maio · 2025 [R] -->
+                <div class="tl-item tl-right tl-entry" data-index="21">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap">
+                        <div class="tl-text-block">
+                            <span class="tl-date">01 · Maio · 2025</span>
+                            <h3 class="tl-title">Pagode em Barreiras</h3>
+                            <p class="tl-desc">À noite, fomos a um pagode para conhecer a cultura de Barreiras. Já com
+                                uma expectativa bem alta.</p>
+                        </div>
+                        <div class="polaroid">
+                            <div class="polaroid-front">
+                                <img src="assets/timeline/01.05%20-%20Sexta%20-%20Pagode.jpeg" alt="Pagode em Barreiras"
+                                    class="polaroid-img">
+                                <p class="polaroid-caption">Pagode em Barreiras</p>
+                            </div>
+                            <div class="polaroid-back">
+                                <p class="polaroid-back-text">Tive que colocar essa também...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 22: 01 · Maio · 2025 [L] -->
+                <div class="tl-item tl-left tl-entry" data-index="22">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap">
+                        <div class="polaroid">
+                            <div class="polaroid-front">
+                                <img src="assets/timeline/01.05%20-%20Sexta%20-%20Ela.jpeg" alt="Ela, no pagode"
+                                    class="polaroid-img">
+                                <p class="polaroid-caption">Ela, no pagode</p>
+                            </div>
+                            <div class="polaroid-back">
+                                <p class="polaroid-back-text">Você tá absurdamente linda nessa foto 🤍</p>
+                            </div>
+                        </div>
+                        <div class="tl-text-block">
+                            <span class="tl-date">01 · Maio · 2025</span>
+                            <h3 class="tl-title">Ela Tem o Dendê</h3>
+                            <p class="tl-desc">No pagode, vi que você sabe cada letra, cada passo, cada coreografia.
+                                Te ver feliz, em casa e sambando foi uma das coisas mais lindas que já presenciei.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 23: 02 · Maio · 2025 [R] -->
+                <div class="tl-item tl-right tl-entry" data-index="23">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap">
+                        <div class="tl-text-block">
+                            <span class="tl-date">02 · Maio · 2025</span>
+                            <h3 class="tl-title">Seu Aniversário</h3>
+                            <p class="tl-desc">De volta à chácara para celebrar. Você estava radiante, atenciosa com
+                                todos e linda em cada detalhe. Nesse dia ficou claro que todos te amam, e com razão.</p>
+                        </div>
+                        <div class="polaroid">
+                            <div class="polaroid-front">
+                                <img src="assets/timeline/02.05%20-%20S%C3%A1bado%20-%20Anivers%C3%A1rio.png"
+                                    alt="Aniversário dela" class="polaroid-img">
+                                <p class="polaroid-caption">Comemoração de Aniversário</p>
+                            </div>
+                            <div class="polaroid-back">
+                                <p class="polaroid-back-text">Aconteceu TANTA coisa nesse dia...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 24: 02 · Maio · 2025 [L] -->
+                <div class="tl-item tl-left tl-entry" data-index="24">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap">
+                        <div class="polaroid">
+                            <div class="polaroid-front">
+                                <img src="assets/timeline/02.05%20-%20S%C3%A1bado%20-%20Fam%C3%ADlia.jpeg"
+                                    alt="Com a família" class="polaroid-img">
+                                <p class="polaroid-caption">Com os padrinhos</p>
+                            </div>
+                            <div class="polaroid-back">
+                                <p class="polaroid-back-text">Uma família maravilhosa, assim como você 🤍</p>
+                            </div>
+                        </div>
+                        <div class="tl-text-block">
+                            <span class="tl-date">02 · Maio · 2025</span>
+                            <h3 class="tl-title">Conhecendo a Família</h3>
+                            <p class="tl-desc">Em seu aniversário, conheci sua família — pessoas incríveis que levarei
+                                comigo no coração.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 25: 03 · Maio · 2025 [R] -->
+                <div class="tl-item tl-right tl-entry" data-index="25">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap">
+                        <div class="tl-text-block">
+                            <span class="tl-date">03 · Maio · 2025</span>
+                            <h3 class="tl-title">Cuidando da Beleza</h3>
+                            <p class="tl-desc">O dia de ir embora chegava. Até te esperar foi especial, simplesmente
+                                porque eu estava presente.</p>
+                        </div>
+                        <div class="polaroid">
+                            <div class="polaroid-front">
+                                <img src="assets/timeline/03.05%20-%20Domingo%20-%20Progressiva.jpeg" alt="Progressiva"
+                                    class="polaroid-img">
+                                <p class="polaroid-caption">Progressiva</p>
+                            </div>
+                            <div class="polaroid-back">
+                                <p class="polaroid-back-text">Índia seus cabeloss</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 26: 03 · Maio · 2025 [L] -->
+                <div class="tl-item tl-left tl-entry" data-index="26">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap">
+                        <div class="polaroid">
+                            <div class="polaroid-front">
+                                <img src="assets/timeline/03.05%20-%20Domingo%20-%20Despedida%20Ch%C3%A1cara.jpeg"
+                                    alt="Despedida" class="polaroid-img">
+                                <p class="polaroid-caption">Despedida</p>
+                            </div>
+                            <div class="polaroid-back">
+                                <p class="polaroid-back-text">Bela foto, né?</p>
+                            </div>
+                        </div>
+                        <div class="tl-text-block">
+                            <span class="tl-date">03 · Maio · 2025</span>
+                            <h3 class="tl-title">Despedida da Chácara</h3>
+                            <p class="tl-desc">Esse foi o instante de nossa despedida da Chácara Neves. Sabíamos que
+                                sentiríamos saudades, e sentimos muito.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 27: 03 · Maio · 2025 [R] -->
+                <div class="tl-item tl-right tl-entry" data-index="27">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap">
+                        <div class="tl-text-block">
+                            <span class="tl-date">03 · Maio · 2025</span>
+                            <h3 class="tl-title">Tchau, Barreiras</h3>
+                            <p class="tl-desc">Chegava a hora de ir embora. Um final de semana curto demais, mas que
+                                sempre será nossa primeira viagem juntos, e será inesquecível.</p>
+                        </div>
+                        <div class="polaroid">
+                            <div class="polaroid-front">
+                                <img src="assets/timeline/03.05%20-%20Domingo%20-%20Sa%C3%ADda.jpeg" alt="A saída"
+                                    class="polaroid-img">
+                                <p class="polaroid-caption">A saída</p>
+                            </div>
+                            <div class="polaroid-back">
+                                <p class="polaroid-back-text">Até breve, Barreiras 👋</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 28: 04 · Maio · 2025 — sem foto -->
+                <div class="tl-item tl-left tl-entry" data-index="28">
+                    <div class="tl-node">
+                        <div class="tl-node-dot"></div>
+                    </div>
+                    <div class="polaroid-wrap text-only-wrap">
+                        <div class="tl-text-card-inner">
+                            <span class="tl-date">04 · Maio · 2025</span>
+                            <p class="tl-text-card-quote">Ainda na estrada, comemoramos enfim seu verdadeiro
+                                aniversário. Em toda
+                                aquela correria de chegar, trabalhar e sair, eu pude estar ao lado da pessoa mais
+                                incrível do
+                                mundo no
+                                dia mais especial do ano dela, em todos os momentos.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 29: 07 · Maio · 2025 [R] -->
+                <div class="tl-item tl-right tl-entry tl-last" data-index="29">
+                    <div class="tl-node">
+                        <div class="tl-node-dot tl-node-final"></div>
+                    </div>
+                    <div class="polaroid-wrap">
+                        <div class="tl-text-block">
+                            <span class="tl-date">07 · Maio · 2025</span>
+                            <h3 class="tl-title">De Volta à Rotina</h3>
+                            <p class="tl-desc">Voltamos à rotina, mas juntos, transformados, sabendo que agora temos um
+                                ao outro sempre que precisarmos. E isso é muito gratificante.</p>
+                        </div>
+                        <div class="polaroid">
+                            <div class="polaroid-front">
+                                <img src="assets/timeline/07.05%20-%20Quinta%20-%20Trabalho.jpeg" alt="No trabalho"
+                                    class="polaroid-img">
+                                <p class="polaroid-caption">No trabalho</p>
+                            </div>
+                            <div class="polaroid-back">
+                                <p class="polaroid-back-text">Tenho muita sorte em poder compartilhar todos os dias com
+                                    você
+                                    🤍</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /tl-cards-track -->
+        </section>
+
+
+        <!-- Seção 5: Escrito nas Estrelas (APOD 10 de abril de 2026) -->
+        <section class="section-stars" id="section-stars">
+            <div class="stars-inner">
+
+                <!-- Badge NASA -->
+                <div class="stars-badge stars-anim" style="--delay:0ms">
+                    <svg class="stars-badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.5" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M12 2 L12 5 M12 19 L12 22 M2 12 L5 M19 12 L22 12" />
+                        <circle cx="12" cy="12" r="3" fill="currentColor" stroke="none" />
+                    </svg>
+                    <span>NASA · Astronomy Picture of the Day</span>
+                </div>
+
+                <!-- Data -->
+                <p class="stars-eyebrow stars-anim" style="--delay:100ms">10 de Abril de 2026</p>
+
+                <!-- Título -->
+                <h2 class="stars-title stars-anim" style="--delay:200ms">Escrito nas Estrelas</h2>
+
+                <!-- Linha decorativa -->
+                <div class="stars-divider stars-anim" aria-hidden="true" style="--delay:300ms"></div>
+
+                <!-- Texto -->
+                <p class="stars-desc stars-anim" style="--delay:400ms">
+                    Justamente no nosso dia,<br>
+                    o universo escolheu postar isto na APOD da NASA
+                </p>
+                <p class="stars-desc stars-desc--italic stars-anim" style="--delay:500ms">
+                    duas galáxias colidindo, a 60 milhões de anos-luz,<br>
+                    formando a silhueta de um coração.
+                </p>
+
+                <!-- Foto da APOD -->
+                <div class="stars-photo-wrap stars-anim" style="--delay:650ms">
+                    <img src="assets/10thApril2026.jpg" alt="The Antennae Galaxies — NASA APOD 10 de abril de 2026"
+                        class="stars-photo">
+                </div>
+
+                <p class="stars-desc stars-desc--italic stars-anim" style="--delay:500ms">
+                    Mais um sinal do universo...
+                </p>
+
+            </div>
+        </section>
+
+
+        <!-- Seção: Spotify Lyrics (Trilha Sonora) -->
+        <section class="section-spotify" id="section-spotify">
+            <div class="container">
+                <h2 class="serif-title text-center reveal-up">Uma música inesquecível</h2>
+
+                <div class="lyrics-container">
+                    <!-- Card Spotify Idêntico -->
+                    <div class="spotify-card reveal-up">
+                        <div class="spotify-header">
+                            <div class="spotify-album-cover">
+                                <img src="assets/Capa.png" alt="Capa" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;">
+                            </div>
+                            <div class="spotify-track-info">
+                                <span class="spotify-song">Pra você acreditar</span>
+                                <span class="spotify-artist">Música · Ferrugem</span>
+                            </div>
+                        </div>
+                        <div class="spotify-lyrics">
+                            O que eu não faria pra esse amor vencer?<br>
+                            Que louco eu seria de perder você?<br>
+                            Sem o seu carinho eu não sou ninguém<br>
+                            Você me faz tão bem, você me faz tão bem
+                        </div>
+                        <div class="spotify-footer">
+                            <svg class="spotify-logo" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                                <path
+                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.6 14.6c-.2.3-.6.4-.9.2-2.5-1.5-5.7-1.8-9.4-1-.3.1-.7-.1-.8-.4-.1-.3.1-.7.4-.8 4.1-.9 7.7-.5 10.5 1.2.3.2.4.6.2.8zm1.3-2.9c-.3.4-.8.5-1.2.2-2.9-1.8-7.3-2.3-10.7-1.3-.4.1-.9-.1-1.1-.6-.1-.4.1-.9.6-1.1 3.9-1.2 8.7-.6 12 1.4.4.3.5.8.4 1.4zm.1-3c-3.4-2-9-2.2-12.2-1.2-.6.2-1.2-.1-1.4-.7-.2-.6.1-1.2.7-1.4 3.8-1.2 10-1 14 1.4.5.3.7.9.4 1.5-.3.5-1 .7-1.5.4z" />
+                            </svg>
+                        </div>
+                        <div class="play-indicator"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Outro -->
+        <section class="section-outro" id="section-outro">
+            <div class="container text-center reveal-up">
+                <h2 class="serif-title">Feliz 1 mês, meu amor</h2>
+                <p>Que seja apenas o primeiro de uma vida inteira.</p>
+                <div class="heart-pulse">🤍</div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/lockscreen.js"></script>
+    <script src="js/typewriter.js"></script>
+    <script src="js/timeline.js"></script>
+    <script src="js/polaroids.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,128 @@
+#lockscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bg-color);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 1.5s ease, visibility 1.5s ease;
+}
+
+#lockscreen.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 2s ease-in-out, visibility 2s ease-in-out;
+}
+
+.lockscreen-content {
+    text-align: center;
+    width: 90%;
+    max-width: 480px; /* maior para a frase não vazar */
+    padding: 2rem;
+    z-index: 10;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1.5s ease 0.5s forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.lock-hint {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    font-style: italic;
+    /* SEM white-space: nowrap — texto pode quebrar e fica centralizado */
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.highlight-gold {
+    color: var(--glow-primary);
+    font-weight: 600;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+#password-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    padding: 1rem 0;
+    color: var(--text-primary);
+    font-size: 2rem;
+    text-align: center;
+    letter-spacing: 0.2em;
+    font-family: var(--font-sans);
+    transition: border-color var(--transition-fast);
+    outline: none;
+}
+
+#password-input:focus {
+    border-bottom-color: var(--glow-primary);
+}
+
+#password-input::placeholder {
+    color: rgba(255, 255, 255, 0.1);
+}
+
+.error-msg {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: #ef4444; /* red-500 */
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.error-msg.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Animação de Shake para erro */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.shake {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+.shake #password-input {
+    border-bottom-color: #ef4444;
+    color: #ef4444;
+}
+
+/* Mobile: reduz o tamanho do input para caber na tela */
+@media (max-width: 520px) {
+    .lockscreen-content {
+        max-width: 95vw;
+        padding: 1.5rem 1rem;
+    }
+    #password-input {
+        font-size: 1.35rem;
+        letter-spacing: 0.12em;
+    }
+    .lock-hint {
+        font-size: 0.95rem;
+    }
+}

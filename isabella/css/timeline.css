@@ -1,0 +1,598 @@
+/* ═══════════════════════════════════════════════════════
+   TIMELINE — Sistema Completo
+   Intro + Linha SVG + Cards Zigzag + Polaroids 3D
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Variáveis locais ── */
+:root {
+    --tl-line-width: 80px;
+}
+
+/* ═══════════════════════════════════
+   INTRO SECTION
+   ═══════════════════════════════════ */
+.section-timeline-intro {
+    min-height: 55vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 6vw 40px;
+}
+
+.tl-intro-content {
+    max-width: 620px;
+}
+
+.tl-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.38em;
+    text-transform: uppercase;
+    color: var(--glow-primary);
+    opacity: 0.65;
+    margin-bottom: 1.2rem;
+    font-family: var(--font-sans);
+}
+
+.tl-intro-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 300;
+    color: var(--text-primary);
+    line-height: 1.1;
+    margin: 0 0 1.4rem;
+}
+
+.tl-intro-title .gold {
+    color: var(--glow-primary);
+    font-weight: 600;
+}
+
+.tl-intro-sub {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin: 0 0 2.5rem;
+}
+
+.tl-intro-line {
+    display: none; /* removida — linha SVG já cobre a conexão visual */
+}
+
+@keyframes pulseHeight {
+    0%, 100% { opacity: 0.3; }
+    50%       { opacity: 0.9; }
+}
+
+
+/* ═══════════════════════════════════
+   TIMELINE PRINCIPAL
+   ═══════════════════════════════════ */
+.section-timeline {
+    position: relative;
+    padding: 40px 0 120px;
+}
+
+/* ── Linha CSS (substitui SVG) ── */
+.tl-line-track {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: var(--tl-line-width);
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* A linha em si — começa com height:0, JS anima para height:X% */
+#tl-line-fill {
+    width: 1.5px;
+    height: 0%;
+    background: linear-gradient(
+        to bottom,
+        #E1A2B8 0%,
+        #D4AF37 50%,
+        #E1A2B8 100%
+    );
+    transform-origin: top center;
+    transition: none; /* JS anima via rAF, sem CSS transition */
+    flex-shrink: 0;
+}
+
+/* Dot que acompanha a ponta da linha */
+#tl-dot-css {
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #D4AF37;
+    box-shadow: 0 0 10px rgba(212,175,55,0.7), 0 0 20px rgba(212,175,55,0.3);
+    opacity: 0;
+    transition: none;
+}
+
+/* CSS obsoleto do SVG (mantido por segurança, pode ser removido) */
+.tl-svg { display: none; }
+#tl-path { display: none; }
+#tl-dot  { display: none; }
+
+/* ── Imagem real dentro da polaroid ── */
+.polaroid-img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 1px;
+    display: block;
+}
+
+/* ═══════════════════════════════════
+   CARD ESPECIAL — TEXTO PURO (sem foto)
+   Faixa horizontal que cruza a timeline de
+   esquerda à direita, passando pelo centro.
+   O nó fica absolutamente posicionado no meio.
+   ═══════════════════════════════════ */
+/* ── Faixa interna convertida em card lateral ── */
+.tl-text-card-inner {
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
+    border: 1px solid rgba(212,175,55,0.18);
+    border-radius: 4px;
+    background: linear-gradient(135deg,
+        rgba(212,175,55,0.04) 0%,
+        rgba(225,162,184,0.03) 100%);
+    padding: 32px 24px;
+    position: relative;
+    z-index: 2;
+    box-sizing: border-box;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.tl-text-card-inner .tl-date {
+    display: block;
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--glow-primary);
+    opacity: 0.65;
+    margin-bottom: 0.8rem;
+    font-family: var(--font-sans);
+}
+
+.tl-text-card-quote {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    color: var(--text-primary);
+    line-height: 1.9;
+    font-style: italic;
+    margin: 0;
+    opacity: 0.88;
+}
+
+
+
+/* ═══════════════════════════════════
+   LAYOUT DOS CARDS — GRID 3 COLUNAS
+   [conteúdo esq] [linha central] [conteúdo dir]
+   ═══════════════════════════════════ */
+.tl-cards-track {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+}
+
+.tl-item {
+    display: grid;
+    grid-template-columns: 1fr var(--tl-line-width) 1fr;
+    align-items: center;
+    padding: 40px 5vw;
+    box-sizing: border-box;
+    min-height: 280px;
+
+    /* Estado inicial — cards invisíveis, surgem via JS */
+    opacity: 0;
+    transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tl-item.tl-visible {
+    opacity: 1;
+    transform: translateY(0) !important;
+}
+
+/* Esquerda: entra pela direita */
+.tl-item.tl-left  { transform: translateX(-30px); }
+/* Direita: entra pela esquerda */
+.tl-item.tl-right { transform: translateX(30px); }
+
+/* Nó (bolinha) fica sempre na coluna central */
+.tl-node {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+}
+
+/* Conteúdo esquerdo: coluna 1, ancorado à direita (junto à linha) */
+.tl-left .polaroid-wrap {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: end;
+    flex-direction: row;   /* DOM: [polaroid][texto] — texto fica à direita, mais perto da linha */
+    padding-right: 1.2rem; /* gap de respiro até a linha */
+}
+
+/* Conteúdo direito: coluna 3, ancorado à esquerda (junto à linha) */
+.tl-right .polaroid-wrap {
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: start;
+    flex-direction: row;   /* DOM: [texto][polaroid] — texto fica à esquerda, mais perto da linha */
+    padding-left: 1.2rem;  /* gap de respiro até a linha (igual ao lado esquerdo) */
+}
+
+/* ── Wrap interno ── */
+.polaroid-wrap {
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+    max-width: 420px;
+    perspective: 1000px;      /* contexto 3D para o flip */
+}
+
+/* ── Textos ── */
+.tl-text-block {
+    flex: 1;
+    min-width: 130px;
+    max-width: 200px;
+}
+
+.tl-date {
+    display: block;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--glow-primary);
+    opacity: 0.65;
+    margin-bottom: 0.45rem;
+    font-family: var(--font-sans);
+}
+
+.tl-title {
+    font-family: var(--font-serif);
+    font-size: 1.45rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem;
+    line-height: 1.2;
+}
+
+.tl-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.72;
+    margin: 0;
+}
+
+
+/* ═══════════════════════════════════
+   NÓ DE CONEXÃO (bolinha na linha)
+   ═══════════════════════════════════ */
+.tl-node-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--glow-primary);
+    box-shadow: 0 0 10px rgba(212,175,55,0.6),
+                0 0 22px rgba(212,175,55,0.25);
+    opacity: 0;
+    transform: scale(0);
+    transition: opacity 0.3s ease 0.2s,
+                transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s;
+}
+
+.tl-item.tl-visible .tl-node-dot {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.tl-node-final {
+    width: 18px;
+    height: 18px;
+    background: linear-gradient(135deg, var(--glow-primary), #E1A2B8);
+    box-shadow: 0 0 18px rgba(212,175,55,0.8),
+                0 0 36px rgba(212,175,55,0.35);
+    animation: finalPulse 2s ease-in-out infinite;
+}
+
+@keyframes finalPulse {
+    0%, 100% { box-shadow: 0 0 16px rgba(212,175,55,0.5), 0 0 30px rgba(212,175,55,0.2); }
+    50%       { box-shadow: 0 0 28px rgba(212,175,55,1),   0 0 56px rgba(212,175,55,0.5); }
+}
+
+.tl-node-line { display: none; } /* não usado, mas mantido para compatibilidade */
+
+
+/* ═══════════════════════════════════
+   POLAROID 3D FLIP (correto)
+
+   TÉCNICA: apenas o CONTAINER .polaroid
+   gira 180deg no eixo Y. Os filhos
+   (front/back) têm backface-visibility:hidden
+   e o back começa pré-rotacionado em 180deg.
+   ═══════════════════════════════════ */
+.polaroid {
+    flex-shrink: 0;
+    width: 230px;
+    height: auto;
+    position: relative;
+    cursor: pointer;
+
+    transform-style: preserve-3d;
+
+    /* Rotação artística aplicada via CSS var --tilt (definida pelo JS) */
+    transform: rotate(var(--tilt, 0deg));
+    transition: transform 0.65s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Flip: adiciona rotateY preservando o --tilt */
+.polaroid.flipped {
+    transform: rotate(var(--tilt, 0deg)) rotateY(180deg);
+}
+
+/* ── Faces ── */
+/* ── Faces ── */
+.polaroid-front {
+    position: relative;
+    border-radius: 2px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.polaroid-back {
+    position: absolute;
+    inset: 0;
+    border-radius: 2px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+/* Frente: visível por padrão (rotY = 0) */
+.polaroid-front {
+    background: #fdfbf7;
+    padding: 12px 12px 0;        /* espaço superior e lateral da foto */
+    overflow: hidden;            /* impede a imagem de vazar */
+    box-shadow:
+        0 5px 16px rgba(0,0,0,0.45),
+        0 2px 4px rgba(0,0,0,0.2),
+        2px 2px 0 rgba(0,0,0,0.04);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Verso: pré-rotacionado 180deg — fica oculto até o pai flipar */
+.polaroid-back {
+    background: #ede8e1;
+    padding: 18px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotateY(180deg);
+    box-shadow:
+        0 5px 16px rgba(0,0,0,0.45),
+        0 2px 4px rgba(0,0,0,0.2);
+}
+
+.polaroid-back-text {
+    font-family: var(--font-serif);
+    font-size: 0.92rem;
+    color: #4a3728;
+    text-align: center;
+    line-height: 1.65;
+    font-style: italic;
+}
+
+/* Hover leve na frente (só no desktop sem flip) */
+@media (hover: hover) {
+    .polaroid:not(.flipped):hover {
+        transform: rotate(var(--tilt, 0deg)) translateY(-4px) scale(1.02);
+        box-shadow: 0 14px 36px rgba(0,0,0,0.5);
+    }
+}
+
+/* ── Placeholder de imagem ── */
+.polaroid-img-placeholder {
+    flex: 1;
+    background: linear-gradient(135deg, #2a1f2a 0%, #1a1018 100%);
+    border-radius: 1px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.polaroid-img-placeholder::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(212,175,55,0.06) 50%, transparent 70%);
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0%, 100% { opacity: 0; }
+    50%       { opacity: 1; }
+}
+
+.ph-icon {
+    font-size: 1.3rem;
+    opacity: 0.35;
+    display: block;
+}
+
+.ph-label {
+    font-size: 0.58rem;
+    color: rgba(255,255,255,0.2);
+    font-family: var(--font-sans);
+    letter-spacing: 0.04em;
+    text-align: center;
+    padding: 0 6px;
+}
+
+/* Placeholder coração (memória final) */
+.polaroid-img-heart {
+    background: linear-gradient(135deg, #3d1c2e 0%, #1a0f18 100%);
+}
+
+.ph-icon-heart {
+    font-size: 2.8rem;
+    color: var(--glow-primary);
+    opacity: 0.85;
+    display: block;
+    text-shadow: 0 0 18px rgba(212,175,55,0.5);
+    animation: heartBeat 2.2s ease-in-out infinite;
+}
+
+@keyframes heartBeat {
+    0%, 100% { transform: scale(1); }
+    14%  { transform: scale(1.1); }
+    28%  { transform: scale(1); }
+    42%  { transform: scale(1.05); }
+    56%  { transform: scale(1); }
+}
+
+/* ── Caption: área branca inferior, texto centralizado ── */
+.polaroid-caption {
+    min-height: 48px;        /* Garante espaço branco inferior amplo (estilo polaroid) */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-serif);
+    font-size: 0.8rem;
+    color: #4a3b2c;
+    font-style: italic;
+    text-align: center;
+    padding: 8px 12px 16px;  /* Respiro interno da legenda */
+    flex-shrink: 0;
+    margin-top: 0;
+    white-space: normal;     /* Permite quebra de linha se necessário */
+}
+
+/* Polaroid final — dourado */
+.polaroid-final .polaroid-front {
+    background: linear-gradient(160deg, #fdfaf4 60%, #f5ead8);
+    box-shadow:
+        0 6px 20px rgba(212,175,55,0.3),
+        0 2px 6px rgba(0,0,0,0.2),
+        0 0 40px rgba(212,175,55,0.1);
+}
+
+/* ── Hint de toque (mobile) ── */
+.tl-touch-hint {
+    font-size: 0.65rem;
+    color: var(--text-secondary);
+    opacity: 0.45;
+    text-align: center;
+    letter-spacing: 0.1em;
+    margin-top: 0.4rem;
+    font-family: var(--font-sans);
+    transition: opacity 1s ease;
+}
+
+
+/* ═══════════════════════════════════
+   RESPONSIVO — MOBILE (≤ 768px)
+   ═══════════════════════════════════ */
+@media (max-width: 768px) {
+
+    /* Linha à esquerda como trilho vertical */
+    .tl-line-track {
+        left: 0;
+        transform: none;
+        width: 36px;
+    }
+
+    /* Grid muda para: [linha] [conteúdo] */
+    .tl-item {
+        grid-template-columns: 36px 1fr;
+        padding: 32px 5vw 32px 0;
+        min-height: auto;
+    }
+
+    /* Nó fica na col 1 */
+    .tl-node {
+        grid-column: 1;
+    }
+
+    /* Conteúdo fica sempre na col 2, independente de left/right */
+    .tl-left .polaroid-wrap,
+    .tl-right .polaroid-wrap {
+        grid-column: 2;
+        grid-row: 1;
+        justify-self: start;
+        flex-direction: column;
+        align-items: flex-start;
+        max-width: 100%;
+        padding: 0 5vw 0 1rem;
+    }
+
+    .tl-left .polaroid-wrap  { flex-direction: column; }
+    .tl-right .polaroid-wrap { flex-direction: column; }
+
+    /* Polaroid menor */
+    .polaroid {
+        width: 180px;
+        height: auto;
+    }
+
+    .tl-text-block { max-width: 100%; }
+
+    /* O card de texto agora é um item lateral normal */
+
+    .tl-text-card-inner {
+        padding: 24px 20px;
+        border: 1px solid rgba(212,175,55,0.18);
+        border-radius: 4px;
+        background: linear-gradient(135deg,
+            rgba(212,175,55,0.05),
+            rgba(225,162,184,0.04));
+        text-align: left;              /* mais legível que centralizado no mobile */
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .tl-text-card-inner .tl-date {
+        letter-spacing: 0.1em;         /* menos tracking no mobile */
+    }
+
+    .tl-text-card-quote {
+        font-size: 0.95rem;
+        line-height: 1.75;
+    }
+
+    /* Animações de entrada para mobile */
+    .tl-item.tl-left,
+    .tl-item.tl-right { transform: translateX(0) translateY(20px); }
+}
+
+
+/* prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+    .tl-item        { transition: opacity 0.3s ease !important; transform: none !important; }
+    .polaroid       { transition: transform 0.3s ease; }
+    .tl-intro-line  { animation: none; opacity: 0.5; }
+    .ph-icon-heart  { animation: none; }
+    .tl-node-final  { animation: none; }
+}

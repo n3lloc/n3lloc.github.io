@@ -1,0 +1,233 @@
+/* Global Music Player */
+#global-player {
+    position: fixed;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    z-index: 1000;
+    background: rgba(24, 17, 20, 0.5);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 40px;
+    padding: 6px 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    transition: opacity 0.5s, transform 0.5s, visibility 0.5s;
+}
+
+#global-player.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%) translateY(-20px);
+}
+
+.player-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 130px;
+}
+
+.player-cover {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--glow-primary), var(--glow-secondary));
+    animation: spin 10s linear infinite;
+}
+
+.player-cover.paused {
+    animation-play-state: paused;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+.player-text {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    max-width: 120px;
+}
+
+/* Container que faz o clip do texto longo */
+.player-title-wrap,
+.player-artist-wrap {
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+}
+
+.player-title {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+}
+
+.player-artist {
+    display: inline-block;
+    font-size: 0.65rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+/* Animação de scroll (marquee) — ativa via JS quando o texto transborda */
+.player-title.marquee,
+.player-artist.marquee {
+    animation: marquee-scroll 8s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+}
+
+@keyframes marquee-scroll {
+    0%   { transform: translateX(0); }
+    18%  { transform: translateX(0); }                      /* pausa longa no início */
+    52%  { transform: translateX(var(--marquee-dist)); }    /* desliza até o fim */
+    68%  { transform: translateX(var(--marquee-dist)); }    /* pausa no fim */
+    100% { transform: translateX(0); }                      /* retorna */
+}
+
+.player-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.player-btn {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s, transform 0.2s;
+    padding: 0;
+}
+
+.player-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.player-btn:hover {
+    color: var(--glow-primary);
+    transform: scale(1.1);
+}
+
+.play-btn {
+    background: var(--text-primary);
+    color: var(--bg-color);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+}
+
+.play-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+.play-btn:hover {
+    background: var(--glow-primary);
+    color: var(--bg-color);
+}
+
+#volume-slider {
+    width: 45px;
+    accent-color: var(--glow-primary);
+    cursor: pointer;
+    height: 3px;
+}
+
+/* Seção Spotify Lyrics */
+.section-spotify {
+    padding: 100px 0;
+}
+
+.lyrics-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    max-width: 450px;
+    margin: 4rem auto 0;
+}
+
+.spotify-card {
+    background-color: #551E79; /* Roxo Spotify sólido */
+    border-radius: 12px;
+    padding: 1.5rem;
+    position: relative;
+    transition: transform var(--transition-fast), filter var(--transition-fast);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.spotify-card:hover {
+    transform: translateY(-5px);
+    filter: brightness(1.1);
+}
+
+.spotify-card.playing {
+    filter: brightness(1.2);
+    box-shadow: 0 0 40px rgba(85, 30, 121, 0.6);
+}
+
+.spotify-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 2rem;
+}
+
+.spotify-album-cover {
+    width: 48px;
+    height: 48px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.6);
+}
+
+.spotify-track-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.spotify-song {
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.spotify-artist {
+    color: rgba(255,255,255,0.7);
+    font-size: 0.85rem;
+}
+
+.spotify-lyrics {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 1.7rem;
+    line-height: 1.4;
+    color: #ffffff;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+}
+
+.spotify-footer {
+    display: flex;
+    justify-content: flex-end;
+    color: rgba(255,255,255,0.8);
+}
+
+.play-indicator {
+    display: none;
+}

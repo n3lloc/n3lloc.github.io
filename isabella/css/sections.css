@@ -1,0 +1,721 @@
+/* HERO & TYPEWRITER */
+.section-hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    position: relative;
+    padding: 0 var(--container-padding, 6vw);
+}
+
+/* Layout split: texto à esquerda, imagem à direita */
+.hero-layout {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 3rem;
+    width: 100%;
+    max-width: 980px;
+    /* menor → conteúdo mais centralizado nas telas grandes */
+    margin: 0 auto;
+    padding-top: 5vh;
+}
+
+.hero-text-side {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    align-self: center;
+}
+
+.hero-typewriter {
+    /* O cursor é inserido dentro do h1 via JS — esse container só precisa exibir o h1 */
+    display: block;
+}
+
+/* O h1 que recebe o texto digitado */
+.hero-h1 {
+    font-family: var(--font-serif);
+    line-height: 1.3;
+    font-style: italic;
+    /* Sem font-size fixo: cada trecho vai ter seu próprio estilo via span */
+}
+
+/* Estilos dos trechos do typewriter */
+.hero-h1 .line-small {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 0.7rem;
+    /* espaço moderado abaixo do título */
+    letter-spacing: 0.05em;
+}
+
+/* Container de linha com altura FIXA — evita qualquer salto de layout */
+.hero-h1 .names-row {
+    display: flex;
+    align-items: flex-end;
+    /* ambos se alinham pela base inferior */
+    height: 4.2rem;
+    /* altura tâo fixa que não muda quando o nome aparece */
+    gap: 0.4rem;
+    /* espaço garantido entre "de" e "Alécio," */
+}
+
+.hero-h1 .line-connector {
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1;
+    /* impede que a altura cresça */
+    padding-bottom: 0.25rem;
+    /* eleva o "de/para" da base para alinhar visualmente */
+    margin-right: 0.8rem;
+}
+
+.hero-h1 .line-name {
+    font-size: 3rem;
+    font-weight: 600;
+    color: var(--glow-primary);
+    text-shadow: 0 0 25px rgba(212, 175, 55, 0.25);
+    line-height: 1;
+}
+
+.cursor {
+    /* Tamanho e cor controlados dinamicamente pelo JS */
+    display: inline;
+    vertical-align: baseline;
+    animation: blink 1s step-end infinite;
+    margin-left: 1px;
+    /* Valores iniciais (sobrescritos pelo JS) */
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-style: normal;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+/* Imagem conceitual solta, à direita */
+.hero-image-side {
+    flex: 0 0 45%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.hero-conceitual {
+    width: 100%;
+    max-width: 420px;
+    max-height: 60vh;
+    object-fit: contain;
+    /* Aparece suavemente com fade-in quando o hero é revelado */
+    opacity: 0;
+    animation: floatImg 6s ease-in-out infinite, imgReveal 1.8s ease 0.5s forwards;
+    filter: drop-shadow(0 20px 60px rgba(212, 175, 55, 0.12));
+}
+
+@keyframes imgReveal {
+    to {
+        opacity: 0.9;
+    }
+}
+
+@keyframes floatImg {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.6;
+    animation: bounce 2s infinite;
+}
+
+.scroll-indicator span {
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.mouse {
+    width: 24px;
+    height: 36px;
+    border: 2px solid var(--text-primary);
+    border-radius: 12px;
+    position: relative;
+}
+
+.mouse::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 6px;
+    background: var(--glow-primary);
+    border-radius: 2px;
+}
+
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translate(-50%, 0);
+    }
+
+    40% {
+        transform: translate(-50%, -10px);
+    }
+
+    60% {
+        transform: translate(-50%, -5px);
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   HERO RESPONSIVO — escala gradual: imagem encolhe, nunca some
+   Só vai pra coluna em celulares reais (≤499px)
+   ───────────────────────────────────────────────────────────── */
+
+/* 1200-1399px: ligeiro ajuste */
+@media (max-width: 1399px) and (min-width: 1200px) {
+    .hero-conceitual {
+        max-width: 390px;
+        max-height: 62vh;
+    }
+}
+
+/* 1000-1199px */
+@media (max-width: 1199px) and (min-width: 1000px) {
+    .hero-layout {
+        gap: 3rem;
+    }
+
+    .hero-image-side {
+        flex: 0 0 42%;
+    }
+
+    .hero-conceitul {
+        max-width: 340px;
+        max-height: 60vh;
+    }
+
+    .hero-h1 .line-name {
+        font-size: 2.8rem;
+    }
+
+    .hero-h1 .names-row {
+        height: 3.5rem;
+    }
+}
+
+/* 800-999px (tablet pequeno / iPad mini) */
+@media (max-width: 999px) and (min-width: 800px) {
+    .hero-layout {
+        gap: 2.5rem;
+        padding-top: 2vh;
+    }
+
+    .hero-image-side {
+        flex: 0 0 40%;
+    }
+
+    .hero-conceitual {
+        max-width: 290px;
+        max-height: 58vh;
+    }
+
+    .hero-h1 .line-name {
+        font-size: 2.5rem;
+    }
+
+    .hero-h1 .line-connector {
+        font-size: 1.3rem;
+    }
+
+    .hero-h1 .names-row {
+        height: 3.2rem;
+    }
+}
+
+/* 600-799px agora coberto pelo bloco ≤768px acima */
+
+
+
+
+/* 500-768px — COLUNA (qualquer celular, inclusive grandes) */
+@media (max-width: 768px) and (min-width: 500px) {
+    .section-hero {
+        padding: 0 5vw;
+        padding-top: 70px;
+        padding-bottom: 90px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: stretch;
+    }
+
+    .hero-layout {
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        gap: 0;
+        padding-top: 0;
+        height: 100%;
+        width: 100%;
+    }
+
+    .hero-text-side {
+        flex: 0 0 auto;
+        width: 100%;
+        text-align: center;
+        align-self: center;
+        justify-content: center;
+    }
+
+    .hero-h1 .names-row {
+        justify-content: center;
+        height: 2.8rem;
+    }
+
+    .hero-image-side {
+        flex: 0 0 auto;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .hero-conceitual {
+        max-height: 38vh;
+        max-width: 210px;
+        width: auto;
+        object-fit: contain;
+    }
+
+    .hero-h1 .line-name {
+        font-size: 2.1rem;
+    }
+
+    .hero-h1 .line-connector {
+        font-size: 1.1rem;
+        padding-bottom: 0.18rem;
+    }
+
+    .hero-h1 .line-small {
+        font-size: 0.95rem;
+        margin-bottom: 0.3rem;
+    }
+
+    /* Centraliza o bloco de texto digitado */
+    .hero-typewriter,
+    #typewriter-text {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .meeting-bg-art {
+        opacity: 0.35;
+        width: 85%;
+        max-width: 320px;
+    }
+}
+
+/* ≤499px — COLUNA (celular pequeno) */
+@media (max-width: 499px) {
+    .section-hero {
+        padding-top: 70px;
+        /* abaixo do player fixo */
+        padding-bottom: 90px;
+        /* acima do scroll indicator */
+        padding-left: 5vw;
+        padding-right: 5vw;
+        box-sizing: border-box;
+        display: flex;
+        align-items: stretch;
+    }
+
+    .hero-layout {
+        flex-direction: column;
+        align-items: center;
+        /* centraliza horizontalmente */
+        justify-content: space-evenly;
+        /* distribui: espaço / texto / espaço / imagem / espaço */
+        gap: 0;
+        padding-top: 0;
+        height: 100%;
+        width: 100%;
+    }
+
+    /* Texto centralizado */
+    .hero-text-side {
+        flex: 0 0 auto;
+        width: 100%;
+        text-align: center;
+        align-self: center;
+        justify-content: center;
+    }
+
+    .hero-h1 .names-row {
+        justify-content: center;
+        height: 2.8rem;
+    }
+
+    /* Imagem com tamanho fixo — não cresce indefinidamente */
+    .hero-image-side {
+        flex: 0 0 auto;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .hero-conceitual {
+        max-height: 42vh;
+        max-width: 200px;
+        width: auto;
+        object-fit: contain;
+    }
+
+    .hero-h1 .line-name {
+        font-size: 2rem;
+    }
+
+    .hero-h1 .line-connector {
+        font-size: 1.05rem;
+        padding-bottom: 0.18rem;
+    }
+
+    .hero-h1 .line-small {
+        font-size: 0.9rem;
+        margin-bottom: 0.3rem;
+    }
+}
+
+
+/* SECTION BLOCKS */
+.section-block {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 100px 0;
+    position: relative;
+    /* necessário para a imagem absoluta */
+    /* SEM overflow:hidden — quebraria o IntersectionObserver */
+}
+
+/* Imagem de fundo artística — Mundos Diferentes */
+.meeting-bg-art {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 55%;
+    max-width: 520px;
+    height: auto;
+    object-fit: contain;
+    opacity: 0.18;
+    z-index: 0;
+    /* fica atrás do conteúdo */
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Garante que o conteúdo da seção fica acima da imagem */
+#section-meeting .container {
+    position: relative;
+    z-index: 1;
+}
+
+.content-split {
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+}
+
+.content-split .text-side {
+    flex: 1;
+}
+
+.content-split .image-side {
+    flex: 1;
+}
+
+.concept-art {
+    width: 100%;
+    max-width: 450px;
+    border-radius: 20px;
+    display: block;
+    margin: 0 auto;
+}
+
+/* TIMELINE (SCROLLYTELLING) */
+.section-timeline {
+    min-height: 150vh;
+    position: relative;
+}
+
+.timeline-container {
+    position: relative;
+    height: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20vh 0;
+}
+
+#timeline-svg {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 100%;
+    z-index: 1;
+}
+
+.timeline-content {
+    position: sticky;
+    top: 50vh;
+    text-align: center;
+    z-index: 2;
+    background: radial-gradient(circle, rgba(3, 7, 18, 0.8) 0%, transparent 70%);
+    padding: 2rem;
+}
+
+
+
+
+/* OUTRO */
+.section-outro {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.heart-pulse {
+    font-size: 4rem;
+    margin-top: 2rem;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    15% {
+        transform: scale(1.2);
+    }
+
+    30% {
+        transform: scale(1);
+    }
+
+    45% {
+        transform: scale(1.2);
+    }
+
+    60%,
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .content-split {
+        flex-direction: column;
+    }
+
+    #typewriter-text,
+    .cursor {
+        font-size: 2.2rem;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+}
+
+
+/* ═══════════════════════════════════════════════
+   SEÇÃO: ESCRITO NAS ESTRELAS (APOD 10/04/2026)
+   Layout vertical centrado · Animações staggered
+   ═══════════════════════════════════════════════ */
+.section-stars {
+    background: var(--bg-primary, #13090e);
+    padding: 100px 5vw 80px;
+    display: flex;
+    justify-content: center;
+}
+
+.stars-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 680px;
+    width: 100%;
+    gap: 1.5rem;
+}
+
+/* ── Animação de entrada staggered ──
+   Cada elemento tem --delay via inline style.
+   A classe .stars-visible (adicionada pelo JS) dispara a animação. */
+.stars-anim {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+        opacity 0.7s ease var(--delay, 0ms),
+        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) var(--delay, 0ms);
+}
+
+.stars-anim.stars-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Badge NASA */
+.stars-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    border-radius: 100px;
+    padding: 6px 18px;
+    font-family: var(--font-sans, sans-serif);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(212, 175, 55, 0.9);
+    background: rgba(212, 175, 55, 0.06);
+}
+
+.stars-badge-icon {
+    width: 13px;
+    height: 13px;
+    color: rgba(212, 175, 55, 0.8);
+    flex-shrink: 0;
+}
+
+/* Data */
+.stars-eyebrow {
+    font-family: var(--font-sans, sans-serif);
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.4);
+    margin: 0;
+}
+
+/* Título principal */
+.stars-title {
+    font-family: var(--font-serif, Georgia, serif);
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--text-primary, #f5e6e8);
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+
+/* Linha dourada */
+.stars-divider {
+    width: 48px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+}
+
+/* Textos */
+.stars-desc {
+    font-family: var(--font-sans, sans-serif);
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.85;
+    margin: 0;
+    max-width: 540px;
+}
+
+.stars-desc--italic {
+    font-style: italic;
+    color: rgba(225, 162, 184, 0.8);
+}
+
+/* Foto da APOD */
+.stars-photo-wrap {
+    margin-top: 1rem;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow:
+        0 0 0 1px rgba(212, 175, 55, 0.15),
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.stars-photo {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    filter: saturate(1.1) brightness(0.92);
+    transition: filter 0.4s ease, transform 0.6s ease;
+}
+
+.stars-photo-wrap:hover .stars-photo {
+    filter: saturate(1.2) brightness(1);
+    transform: scale(1.01);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .section-stars {
+        padding: 70px 5vw 60px;
+    }
+
+    .stars-title {
+        font-size: 2rem;
+    }
+
+    .stars-desc br {
+        display: none;
+    }
+
+    .stars-inner {
+        gap: 1.1rem;
+    }
+}

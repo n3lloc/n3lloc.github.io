@@ -1,0 +1,142 @@
+/* Variáveis Globais */
+:root {
+    --bg-color: #150d11; /* Quase preto puxado pro vinho/café */
+    --text-primary: #fdf6e3; /* Branco quente */
+    --text-secondary: #d4b5b0; /* Rosa envelhecido suave */
+    --glow-primary: #D4AF37; /* Champagne Gold */
+    --glow-secondary: #E1A2B8; /* Rose Gold */
+    
+    --font-sans: 'Inter', sans-serif;
+    --font-serif: 'Playfair Display', serif;
+    
+    --transition-fast: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Reset e Setup Básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    background-color: var(--bg-color);
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Esconder barra de rolagem mas manter funcionamento */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--glow-primary);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--glow-secondary); 
+}
+
+/* Tipografia Comum */
+.serif-title {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--text-primary);
+}
+
+h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+
+p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.text-center { text-align: center; }
+.subtitle { font-size: 1.2rem; color: var(--glow-primary); font-style: italic; }
+.hint-text { font-size: 0.9rem; color: #6b7280; margin-top: -1rem; margin-bottom: 3rem; }
+
+/* Utilitários Visuais */
+.hidden {
+    display: none !important;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 10;
+}
+
+/* Efeitos de Revelação via Observer */
+.reveal-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity var(--transition-slow), transform var(--transition-slow);
+}
+.reveal-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity var(--transition-slow), transform var(--transition-slow);
+}
+.reveal-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity var(--transition-slow), transform var(--transition-slow);
+}
+
+.reveal-up.active, .reveal-left.active, .reveal-right.active {
+    opacity: 1;
+    transform: translate(0);
+}
+
+.delay-1 { transition-delay: 0.2s; }
+.delay-2 { transition-delay: 0.4s; }
+
+/* Placeholders de Imagem Glow */
+.image-placeholder {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(212, 175, 55, 0.2); /* Champagne Gold suave */
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.9rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.image-placeholder::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 0%, rgba(225, 162, 184, 0.05) 50%, transparent 100%);
+}
+
+.aspect-portrait { aspect-ratio: 3/4; width: 100%; max-width: 400px; margin: 0 auto;}
+.aspect-landscape { aspect-ratio: 16/9; width: 100%; }
+
+.glow-effect {
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.1);
+}
