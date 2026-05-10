@@ -34,7 +34,7 @@ window.startTypewriter = function () {
 
     // ─── 2. Sequência de digitação ───
     const sequence = [
-        { el: smallSpan, text: 'uma carta aberta', cursorCls: 'line-small', pauseAfter: 800 },
+        { el: smallSpan, text: 'uma carta de amor', cursorCls: 'line-small', pauseAfter: 800 },
         { el: conn1, text: 'de  ', cursorCls: 'line-connector', pauseAfter: 0 },
         { el: name1, text: '  Alécio', cursorCls: 'line-name', pauseAfter: 700 },
         { el: conn2, text: 'para  ', cursorCls: 'line-connector', pauseAfter: 0 },
