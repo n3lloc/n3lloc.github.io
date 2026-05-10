@@ -74,3 +74,22 @@
     66%  { transform: translate(-20px, 20px) scale(0.9); }
     100% { transform: translate(0, 0) scale(1); }
 }
+
+/* Responsividade para os blobs no mobile (luzinhas) */
+@media (max-width: 768px) {
+    .blob {
+        filter: blur(45px); /* Menos blur para não desaparecer no mobile */
+    }
+    .blob-1 {
+        width: 80vw;
+        height: 80vw;
+    }
+    .blob-2 {
+        width: 100vw;
+        height: 100vw;
+    }
+    .blob-3 {
+        width: 70vw;
+        height: 70vw;
+    }
+}
